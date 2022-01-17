@@ -6,11 +6,10 @@ function requestToWiki(websiteURL, searchWord) {
         request(websiteURL, (error, response, html) => {
             if (!error && response.statusCode == 200) {
                 const $ = cheerio.load(html);
-		const contentData = $(".mw-body");
-		const output = contentData.contents();
-		const contentTextContent = contentData.text();
-                console.log('$ = ', contentTextContent);
-		console.log('word count = ', contentTextContent.split(searchWord).length - 1);
+		        const contentData = $(".mw-body");
+        		const contentTextContent = contentData.text();
+                const wordCount = contentTextContent.split(searchWord).length - 1;
+		        console.log('word count = ', wordCount);
 
             } else {
                 console.log('Error Response = ', error);

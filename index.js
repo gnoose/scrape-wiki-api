@@ -1,12 +1,16 @@
 const request = require("request-promise");
 const cheerio = require("cheerio");
 
-function requestToWiki() {
+function requestToWiki(websiteURL, searchWord) {
     try {
-        request("https://en.wikipedia.org/wiki/Tokyo", (error, response, html) => {
+        request(websiteURL, (error, response, html) => {
             if (!error && response.statusCode == 200) {
                 const $ = cheerio.load(html);
-                console.log('$ = ', $);
+		const contentData = $(".mw-body");
+		const output = contentData.contents();
+		const contentTextContent = contentData.text();
+                console.log('$ = ', contentTextContent);
+		console.log('word count = ', contentTextContent.split(searchWord).length - 1);
 
             } else {
                 console.log('Error Response = ', error);
@@ -17,4 +21,4 @@ function requestToWiki() {
     }
 }
 
-requestToWiki();
+requestToWiki("https://en.wikipedia.org/wiki/Tokyo", "NARA");
